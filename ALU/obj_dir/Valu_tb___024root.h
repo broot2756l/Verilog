@@ -11,7 +11,7 @@
 
 class Valu_tb__Syms;
 
-class alignas(VL_CACHE_LINE_BYTES) Valu_tb___024root final : public VerilatedModule {
+class alignas(VL_CACHE_LINE_BYTES) Valu_tb___024root final {
   public:
 
     // DESIGN SPECIFIC STATE
@@ -21,19 +21,26 @@ class alignas(VL_CACHE_LINE_BYTES) Valu_tb___024root final : public VerilatedMod
     CData/*0:0*/ alu_tb__DOT__tb_zero_flag;
     CData/*0:0*/ alu_tb__DOT__tb_div_by_zero;
     CData/*0:0*/ __VstlFirstIteration;
-    CData/*0:0*/ __VactContinue;
+    CData/*0:0*/ __VstlPhaseResult;
+    CData/*0:0*/ __VactPhaseResult;
+    CData/*0:0*/ __VinactPhaseResult;
+    CData/*0:0*/ __VnbaPhaseResult;
     SData/*15:0*/ alu_tb__DOT__tb_result;
     IData/*31:0*/ __VactIterCount;
+    IData/*31:0*/ __VinactIterCount;
+    IData/*31:0*/ __Vi;
+    VlUnpacked<QData/*63:0*/, 1> __VstlTriggered;
+    VlUnpacked<QData/*63:0*/, 1> __VactTriggered;
+    VlUnpacked<QData/*63:0*/, 1> __VactTriggeredAcc;
+    VlUnpacked<QData/*63:0*/, 1> __VnbaTriggered;
     VlDelayScheduler __VdlySched;
-    VlTriggerVec<1> __VstlTriggered;
-    VlTriggerVec<1> __VactTriggered;
-    VlTriggerVec<1> __VnbaTriggered;
 
     // INTERNAL VARIABLES
-    Valu_tb__Syms* const vlSymsp;
+    Valu_tb__Syms* vlSymsp;
+    const char* vlNamep;
 
     // CONSTRUCTORS
-    Valu_tb___024root(Valu_tb__Syms* symsp, const char* v__name);
+    Valu_tb___024root(Valu_tb__Syms* symsp, const char* namep);
     ~Valu_tb___024root();
     VL_UNCOPYABLE(Valu_tb___024root);
 

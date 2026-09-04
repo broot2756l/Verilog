@@ -5,7 +5,6 @@
 // unless using verilator public meta comments.
 // Suggest use Valu_tb.h instead.
 
-
 #ifndef VERILATED_VALU_TB__PCH_H_
 #define VERILATED_VALU_TB__PCH_H_  // guard
 
