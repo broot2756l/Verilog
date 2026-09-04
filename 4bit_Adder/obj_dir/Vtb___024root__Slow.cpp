@@ -3,16 +3,14 @@
 // See Vtb.h for the primary calling header
 
 #include "Vtb__pch.h"
-#include "Vtb__Syms.h"
-#include "Vtb___024root.h"
 
 void Vtb___024root___ctor_var_reset(Vtb___024root* vlSelf);
 
-Vtb___024root::Vtb___024root(Vtb__Syms* symsp, const char* v__name)
-    : VerilatedModule{v__name}
-    , __VdlySched{*symsp->_vm_contextp__}
-    , vlSymsp{symsp}
+Vtb___024root::Vtb___024root(Vtb__Syms* symsp, const char* namep)
+    : __VdlySched{*symsp->_vm_contextp__}
  {
+    vlSymsp = symsp;
+    vlNamep = strdup(namep);
     // Reset structure values
     Vtb___024root___ctor_var_reset(this);
 }
@@ -22,4 +20,5 @@ void Vtb___024root::__Vconfigure(bool first) {
 }
 
 Vtb___024root::~Vtb___024root() {
+    VL_DO_DANGLING(std::free(const_cast<char*>(vlNamep)), vlNamep);
 }

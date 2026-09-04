@@ -50,11 +50,11 @@ void Vtb::eval_step() {
     vlSymsp->__Vm_activity = true;
     vlSymsp->__Vm_deleter.deleteAll();
     if (VL_UNLIKELY(!vlSymsp->__Vm_didInit)) {
-        vlSymsp->__Vm_didInit = true;
         VL_DEBUG_IF(VL_DBG_MSGF("+ Initial\n"););
         Vtb___024root___eval_static(&(vlSymsp->TOP));
         Vtb___024root___eval_initial(&(vlSymsp->TOP));
         Vtb___024root___eval_settle(&(vlSymsp->TOP));
+        vlSymsp->__Vm_didInit = true;
     }
     VL_DEBUG_IF(VL_DBG_MSGF("+ Eval\n"););
     Vtb___024root___eval(&(vlSymsp->TOP));
@@ -72,7 +72,7 @@ void Vtb::eval_end_step() {
 
 //============================================================
 // Events and timing
-bool Vtb::eventsPending() { return !vlSymsp->TOP.__VdlySched.empty(); }
+bool Vtb::eventsPending() { return !vlSymsp->TOP.__VdlySched.empty() && !contextp()->gotFinish(); }
 
 uint64_t Vtb::nextTimeSlot() { return vlSymsp->TOP.__VdlySched.nextTimeSlot(); }
 
@@ -89,7 +89,9 @@ const char* Vtb::name() const {
 void Vtb___024root___eval_final(Vtb___024root* vlSelf);
 
 VL_ATTR_COLD void Vtb::final() {
+    contextp()->executingFinal(true);
     Vtb___024root___eval_final(&(vlSymsp->TOP));
+    contextp()->executingFinal(false);
 }
 
 //============================================================
@@ -103,7 +105,7 @@ void Vtb::atClone() const {
     contextp()->threadPoolpOnClone();
 }
 std::unique_ptr<VerilatedTraceConfig> Vtb::traceConfig() const {
-    return std::unique_ptr<VerilatedTraceConfig>{new VerilatedTraceConfig{false, false, false}};
+    return std::unique_ptr<VerilatedTraceConfig>{new VerilatedTraceConfig{false}};
 };
 
 //============================================================
@@ -122,7 +124,7 @@ VL_ATTR_COLD static void trace_init(void* voidSelf, VerilatedVcd* tracep, uint32
             "Turning on wave traces requires Verilated::traceEverOn(true) call before time 0.");
     }
     vlSymsp->__Vm_baseCode = code;
-    tracep->pushPrefix(std::string{vlSymsp->name()}, VerilatedTracePrefixType::SCOPE_MODULE);
+    tracep->pushPrefix(vlSymsp->name(), VerilatedTracePrefixType::SCOPE_MODULE);
     Vtb___024root__trace_decl_types(tracep);
     Vtb___024root__trace_init_top(vlSelf, tracep);
     tracep->popPrefix();
@@ -135,9 +137,9 @@ VL_ATTR_COLD void Vtb::traceBaseModel(VerilatedTraceBaseC* tfp, int levels, int 
     VerilatedVcdC* const stfp = dynamic_cast<VerilatedVcdC*>(tfp);
     if (VL_UNLIKELY(!stfp)) {
         vl_fatal(__FILE__, __LINE__, __FILE__,"'Vtb::trace()' called on non-VerilatedVcdC object;"
-            " use --trace-fst with VerilatedFst object, and --trace with VerilatedVcd object");
+            " use --trace-fst with VerilatedFst object, and --trace-vcd with VerilatedVcd object");
     }
     stfp->spTrace()->addModel(this);
-    stfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP));
+    stfp->spTrace()->addInitCb(&trace_init, &(vlSymsp->TOP), name(), false, 6);
     Vtb___024root__trace_register(&(vlSymsp->TOP), stfp->spTrace());
 }

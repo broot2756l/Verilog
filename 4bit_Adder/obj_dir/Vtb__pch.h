@@ -5,7 +5,6 @@
 // unless using verilator public meta comments.
 // Suggest use Vtb.h instead.
 
-
 #ifndef VERILATED_VTB__PCH_H_
 #define VERILATED_VTB__PCH_H_  // guard
 
