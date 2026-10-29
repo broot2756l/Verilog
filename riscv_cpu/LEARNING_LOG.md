@@ -28,6 +28,8 @@ Toolchain: Verilator 5 (`--binary --trace`), GTKWave, pure SV testbenches.
 - Six formats R/I/S/B/U/J; fixed rd/rs1/rs2 positions; sign bit always inst[31].
 - Worked encodings: `add x5,x6,x7` = 0x007302B3, `addi x1,x0,5` = 0x00500093.
 
+**Notes:** [docs/phase0_lesson01_isa_overview.md](docs/phase0_lesson01_isa_overview.md)
+
 **Quiz 0.1:** asked, awaiting answers.
 
 **Mistakes / lessons**
