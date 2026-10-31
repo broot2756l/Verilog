@@ -43,6 +43,15 @@ No flags. No accumulator.
 | Conditions | Z/C flags set by ALU, read by `JZ`/`JC` | No flags. `beq x5, x6, label` compares + branches in one instruction; `slt` writes 0/1 into a register |
 | Memory access | ALU ops could read RAM directly (`ADD`, `ANDM`) | **Load/store architecture** — only loads/stores touch memory; ALU sees only registers and immediates |
 
+### Register file ports
+
+Lockers model: the register file is 32 lockers, a read port is a window that shows one locker
+at a time, and a write port is a drop slot. 32 registers does not mean 32 ports.
+
+`add x5, x6, x7` reads x6 and x7 in the same cycle and writes x5, so the register file needs
+2 read ports and 1 write port. The 4-bit CPU's ACC was one register wired straight to the ALU,
+so nothing had to be selected and no read port was needed.
+
 ### x0 is hardwired to zero
 
 Reads always return 0; writes are discarded. This gives many **pseudo-instructions** for free:
@@ -160,31 +169,5 @@ hand-encoding mistakes happen.
 - ABI register names: RISC-V ELF psABI —
   <https://github.com/riscv-non-isa/riscv-elf-psabi-doc>
 - Harris & Harris, *Digital Design and Computer Architecture, RISC-V Edition*:
-  Ch. 6 (Architecture) — §6.3 Machine Language (formats), §6.4 (calling convention);
+  Ch. 6 (Architecture) — §6.3 Programming (calling convention), §6.4 Machine Language (formats);
   Appendix B (full encoding table).
-
----
-
-## 6. Quiz 0.1
-
-1. **Operands.** In my 4-bit CPU, `ADD` had one explicit operand; ACC was an implicit source
-   and destination. For `add x5, x6, x7`, which fields name the operands? How many register
-   file read ports are needed to execute it in one cycle, and why could my CPU's design
-   get away with fewer?
-2. **x0.** What does `addi x0, x1, 7` do architecturally? Which pseudo-instruction does
-   `jal x0, label` implement, and why does `x0` make it work?
-3. **No flags.** My CPU did "if ACC == 0, jump" with a Z flag and `JZ`. How does RV32I
-   express "if x5 == x6, branch"? How would it store "is x5 < x6?" for a later instruction to use?
-4. **Format design.** Why does S-type split its immediate into `imm[11:5]` at `[31:25]` and
-   `imm[4:0]` at `[11:7]` instead of using `[31:20]` like I-type? Name one hardware benefit.
-5. **Decode.** Decode `0x00A00513`: format, opcode name, rd, rs1, immediate, assembly,
-   and the pseudo-instruction form using ABI names.
-
-### My answers
-<!-- Write your answers here, then compare with the graded feedback. -->
-
-1.
-2.
-3.
-4.
-5.

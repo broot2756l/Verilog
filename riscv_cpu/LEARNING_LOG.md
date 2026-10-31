@@ -6,7 +6,7 @@ Toolchain: Verilator 5 (`--binary --trace`), GTKWave, pure SV testbenches.
 ## Where we are
 - **Current phase:** Phase 0 – The ISA on paper
 - **Current lesson:** 0.1 – RISC-V overview, register file, six instruction formats
-- **Next:** Answer Quiz 0.1 → Lesson 0.2 (immediate encoding in detail) → encode/decode exercise
+- **Next:** Lesson 0.2 (immediate encoding in detail) → encode/decode exercise
 
 ## Phases
 | Phase | Topic | Status |
@@ -30,10 +30,13 @@ Toolchain: Verilator 5 (`--binary --trace`), GTKWave, pure SV testbenches.
 
 **Notes:** [docs/phase0_lesson01_isa_overview.md](docs/phase0_lesson01_isa_overview.md)
 
-**Quiz 0.1:** asked, awaiting answers.
+**Quick reference:** [docs/phase0_quick_reference.md](docs/phase0_quick_reference.md)
 
 **Mistakes / lessons**
-- (none yet)
+- Confused *number of registers* (32) with *number of read ports* (registers read
+  simultaneously). Also counted only `x5` as an operand. `add x5,x6,x7` has three register
+  operands: rd = x5 (written), rs1 = x6 and rs2 = x7 (read).
+  → The "lockers + windows" analogy made this click.
 
 ## Open questions
 - (none yet)
